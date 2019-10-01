@@ -1,13 +1,13 @@
 version: '2.1'
 services:
   elasticsearch-1:
-    image: 'docker.elastic.co/elasticsearch/elasticsearch:6.4.2'
+    image: 'docker.elastic.co/elasticsearch/elasticsearch:6.8.1'
     container_name: elasticsearch-1
     ports:
       - '9200:9200'
       - '9300:9300'
   kibana:
-    image: 'docker.elastic.co/kibana/kibana:6.4.2'
+    image: 'docker.elastic.co/kibana/kibana:6.8.1'
     container_name: kibana
     environment:
       - 'ELASTICSEARCH_URL=http://elasticsearch-1:9200'
@@ -16,7 +16,8 @@ services:
     ports:
       - '5601:5601'
   metricbeat:
-    image: 'docker.elastic.co/beats/metricbeat:6.4.2'
+    image: 'docker.elastic.co/beats/metricbeat:6.8.1'
+    # user: root
     container_name: metricbeat
     # depends_on:
       # - elasticsearch-1
@@ -26,9 +27,10 @@ services:
       - ELASTICSEARCH_PASSWORD=changeme
     volumes:
       - ./metricbeat.docker.yml:/usr/share/metricbeat/metricbeat.yml:ro
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
     command: metricbeat -e -strict.perms=false
 #  logstash:
-#    image: docker.elastic.co/logstash/logstash:6.4.2
+#    image: docker.elastic.co/logstash/logstash:6.8.1
 #    container_name: logstash
 #    command: logstash --path.settings "/etc/logstash/config"
 #    # networks:
@@ -38,14 +40,15 @@ services:
 #    volumes:
 #      - ./config:/etc/logstash/config
 #      - ./pipeline:/etc/logstash/conf.d
+#      - ./nginx-pattern:/opt/logstash/patterns/nginx
+#      - /home/aanjaria/Downloads/nginx-logs-test:/var/log/nginx
 #  filebeat:
-#    image: docker.elastic.co/beats/filebeat:6.4.2
+#    image: docker.elastic.co/beats/filebeat:6.8.1
 #    depends_on:
 #      - kibana
 #    container_name: filebeat
 #    # user: root
 #    volumes:
-#      - ./filebeat.docker.copy.yml:/usr/share/filebeat/filebeat.yml
-#      # - /var/lib/docker/containers:/usr/share/filebeat/logs/docker-logs:ro
-#      # - ./filebeat/nginx.yml:/usr/share/filebeat/modules.d/nginx.yml
-#      - /home/aanjaria/Downloads/patagona-dev/var/log/nginx:/usr/share/filebeat/logs/plentymarket-middleware-logs:ro
+#      - ./filebeat.docker.yml:/usr/share/filebeat/filebeat.yml
+#      - ./filbeat.json:/usr/share/filebeat/module/nginx/access/ingest/default.json
+#      - /home/aanjaria/Downloads/nginx-logs-test:/var/log/nginx

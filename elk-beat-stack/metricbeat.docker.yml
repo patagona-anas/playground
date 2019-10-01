@@ -1,12 +1,13 @@
 metricbeat.modules:
-- module: rabbitmq
-  metricsets: 
-    - node
-  period: 20s
-  enabled: true  
-  hosts: ["192.168.178.224:15672"]
-  username: guest
-  password: guest
+- module: mysql
+  metricsets:
+  - "status"
+  period: 1m
+
+  # Host DSN should be defined as "user:pass@tcp(127.0.0.1:3306)/"
+  # The username and password can either be set in the DSN or using the username
+  # and password config options. Those specified in the DSN take precedence.
+  hosts: [".."]
 
 output.elasticsearch:
   hosts: ["elasticsearch-1:9200"]
