@@ -1,2 +1,0 @@
-xpack.monitoring.elasticsearch.url: http://elasticsearch-1:9200
-path.config: /etc/logstash/conf.d
