@@ -50,27 +50,6 @@ output.elasticsearch:
 
   # index: "logstash-%{+YYYY.MM.dd.HH}"
 
-#----------------------------- Console output ---------------------------------
-
-output.console:
-  enabled: false
-
-  # Configure JSON encoding
-  codec.json:
-    # Pretty-print JSON event
-    pretty: true
-
-    # Configure escaping HTML symbols in strings.
-    #escape_html: false
-
-#----------------------------- Logstash output ---------------------------------
-output.logstash:
-  # Boolean flag to enable or disable the output module.
-  enabled: false
-
-  # The Logstash hosts
-  hosts: ["logstash:5044"]
-
 #==========================  Modules configuration =============================
 filebeat.modules:
 #-------------------------------- Nginx Module --------------------------------
@@ -82,7 +61,7 @@ filebeat.modules:
     # Set custom paths for the log files. If left empty,
     # Filebeat will choose the paths depending on your OS.
     var.paths:
-      - /var/logs/nginx/access.log
+    - /var/logs/nginx/access.log
 
     # Input configuration (advanced). Any input configuration option
     # can be added under this section.
@@ -95,7 +74,7 @@ filebeat.modules:
     # Set custom paths for the log files. If left empty,
     # Filebeat will choose the paths depending on your OS.
     var.paths:
-      - /usr/share/dockerlogs/data/filtered.log
+    - /var/logs/nginx/error.log
     # Input configuration (advanced). Any input configuration option
     # can be added under this section.
     #input:

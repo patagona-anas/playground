@@ -1,12 +1,24 @@
+fields:
+  ec2_tag_name: "aa"
+
 metricbeat.modules:
-- module: rabbitmq
-  metricsets: 
-    - node
-  period: 20s
-  enabled: true  
-  hosts: ["192.168.178.224:15672"]
-  username: guest
-  password: guest
+- module: system
+  period: 10s
+  metricsets:
+  - cpu
+  process.include_top_n:
+    by_cpu: 5      # include top 5 processes by CPU
+    by_memory: 5   # include top 5 processes by memory
+
+# ================================= Migration ==================================
+
+# This allows to enable 6.7 migration aliases
+migration.6_to_7.enabled: true
+
+# ====================== Index Lifecycle Management (ILM) ======================
+# Set the lifecycle policy name. The default policy name is
+# 'beatname'.
+setup.ilm.policy_name: "metricbeat-7.17.1"
 
 output.elasticsearch:
   hosts: ["elasticsearch-1:9200"]
