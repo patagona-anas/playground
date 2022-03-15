@@ -2,13 +2,28 @@ fields:
   ec2_tag_name: "aa"
 
 metricbeat.modules:
-- module: system
-  period: 10s
+#---------------------------- Elasticsearch Module ----------------------------
+- module: elasticsearch
   metricsets:
-  - cpu
-  process.include_top_n:
-    by_cpu: 5      # include top 5 processes by CPU
-    by_memory: 5   # include top 5 processes by memory
+    - node
+    - node_stats
+    #- index
+    #- index_recovery
+    #- index_summary
+    #- shard
+    #- ml_job
+  period: 10s
+  hosts: ["https://test-ylui-1-cluster.es.eu-west-1.aws.found.io:9243"]
+  username: "elastic"
+  password: "..."
+  #ssl.certificate_authorities: ["/etc/pki/root/ca.pem"]
+
+  # Set to false to fetch all entries
+  #index_recovery.active_only: true
+
+  # Set to true to send data collected by module to X-Pack
+  # Monitoring instead of metricbeat-* indices.
+  #xpack.enabled: false
 
 # ================================= Migration ==================================
 
@@ -19,6 +34,11 @@ migration.6_to_7.enabled: true
 # Set the lifecycle policy name. The default policy name is
 # 'beatname'.
 setup.ilm.policy_name: "metricbeat-7.17.1"
+
+# Enable ILM support. Valid values are true, false, and auto. When set to auto
+# (the default), the Beat uses index lifecycle management when it connects to a
+# cluster that supports ILM; otherwise, it creates daily indices.
+setup.ilm.enabled: false
 
 output.elasticsearch:
   hosts: ["elasticsearch-1:9200"]

@@ -18,21 +18,21 @@ services:
       - elasticsearch-1
     ports:
       - '5601:5601'
-#  metricbeat:
-#    image: 'docker.elastic.co/beats/metricbeat:7.17.1'
-#    container_name: metricbeat
-#    depends_on:
-#      - kibana
-#    environment:
-#      - ELASTICSEARCH_USERNAME=elastic
-#      - ELASTICSEARCH_PASSWORD=changeme
-#    volumes:
-#      - ./metricbeat.docker.yml:/usr/share/metricbeat/metricbeat.yml:ro
-#      - /var/run/docker.sock:/var/run/docker.sock:ro
-#      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
-#      - /proc:/hostfs/proc:ro
-#      - /:/hostfs:ro
-#    command: metricbeat -e -strict.perms=false
+  metricbeat:
+    image: 'docker.elastic.co/beats/metricbeat:7.17.1'
+    container_name: metricbeat
+    depends_on:
+      - kibana
+    # environment:
+      # - ELASTICSEARCH_USERNAME=elastic
+      # - ELASTICSEARCH_PASSWORD=changeme
+    volumes:
+      - ./metricbeat.docker.yml:/usr/share/metricbeat/metricbeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /proc:/hostfs/proc:ro
+      - /:/hostfs:ro
+    command: metricbeat -e -strict.perms=false
 #  filebeat:
 #    # network_mode: "host"
 #    image: docker.elastic.co/beats/filebeat:7.16.3
