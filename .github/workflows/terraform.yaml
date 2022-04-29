@@ -1,0 +1,23 @@
+name: "Terraform"
+
+# This workflow is configured to run after the completion of "Ansible" workflow
+on:
+  workflow_run:
+    workflows: ["Ansible"]
+    types:
+      - completed
+
+jobs:
+  terraform:
+    # whether the outcome of ansible workflow is successful
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # name: "Terraform"
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2.0.0
+
+      - name: Terraform version
+        id: version
+        run: terraform --version

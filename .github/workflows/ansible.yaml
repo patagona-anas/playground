@@ -1,0 +1,21 @@
+name: "Ansible"
+
+on:
+  push:
+    branches:
+      - main
+      - testing_workflow
+  pull_request:
+
+jobs:
+  ansible:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.2
+
+      - name: Ansible validate yaml syntax
+        uses: tomasnorre/ansible-cli-client@0.0.2
+        with:
+          command: "ansible-playbook --version"
