@@ -10,8 +10,8 @@ on:
 jobs:
   terraform:
     # whether the outcome of ansible workflow is successful
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    # name: "Terraform"
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    name: "Terraform"
     runs-on: ubuntu-20.04
 
     steps:
